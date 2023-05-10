@@ -31,12 +31,12 @@ def product_list(request,format=None):
     
     if request.method=='POST':
         serializer=ProductSerializer(data=request.data)
-        expired=date.today()-timedelta(days=60)
+        
 
         if serializer.is_valid():
-            registered_date = serializer.validated_data['registered_date']
+            
             expired = date.today() - timedelta(days=60)
-            if serializer.validated_data['registered_date'] <= expired.date():
+            if serializer.validated_data['registered_date'] <= expired:
                 serializer.validated_data['active'] = False
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
